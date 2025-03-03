@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
 	def test_eq(self):
@@ -25,5 +25,17 @@ class TestHTMLNode(unittest.TestCase):
 	def test_leaf_node_only_value(self):
 		node = LeafNode(value="This is a paragraph")
 		self.assertEqual(node.to_html(), "This is a paragraph", "Test failed: LeafNode to_html output doesn't match expected.")
+	def test_to_html_with_children(self):
+		child_node = LeafNode("span", "child")
+		parent_node = ParentNode("div", [child_node])
+		self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+	def test_to_html_with_grandchildren(self):
+		grandchild_node = LeafNode("b", "grandchild")
+		child_node = ParentNode("span", [grandchild_node])
+		parent_node = ParentNode("div", [child_node])
+		self.assertEqual(
+			parent_node.to_html(),
+			"<div><span><b>grandchild</b></span></div>",
+		)
 if __name__ == "__main__":
     unittest.main(verbosity=2)
