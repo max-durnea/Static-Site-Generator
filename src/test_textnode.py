@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-
+from parsing import *
 
 class TestTextNode(unittest.TestCase):
 
@@ -35,6 +35,23 @@ class TestTextNode(unittest.TestCase):
     def test_none_values(self):
         node = TextNode(None, TextType.NORMAL)
         self.assertIsNone(node.text, "Test failed: Text node with None should result in None as text!")
+    def test_delimiter(self):
+        node = TextNode("This is text with a `code block` word", TextType.TEXT)
+        node1 = TextNode("This is text with a **bold block** word",TextType.TEXT)
+        new_nodes=split_nodes_delimiter(split_nodes_delimiter([node,node1], "`", TextType.CODE),"**",TextType.BOLD)
+        sample=[TextNode("This is text with a ",TextType.TEXT,None), TextNode("code block",TextType.CODE,None), TextNode(" word",TextType.TEXT,None), TextNode("This is text with a ",TextType.TEXT,None), TextNode("bold block",TextType.BOLD,None), TextNode(" word",TextType.TEXT,None)]
+        for i in range(0,len(new_nodes)):
+            self.assertEqual(sample[i],new_nodes[i],"Test failed: Parsing Done Wrong!")
+    def test_img_extract(self):
+        text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+        result = [('rick roll', 'https://i.imgur.com/aKaOqIh.gif'), ('obi wan', 'https://i.imgur.com/fJRm4Vk.jpeg')]
+        extracted_result = extract_markdown_images(text)
+        self.assertEqual(extracted_result, result, "Test failed: Image data extracted wrong")
+    def test_link_extract(self):
+        text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+        result = [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")]
+        extracted_result = extract_markdown_links(text)
+        self.assertEqual(extracted_result,result,"Test failed: Link data extracted wrong")
 
 # Run tests with verbosity=2 for more detailed output
 if __name__ == "__main__":
