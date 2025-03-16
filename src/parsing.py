@@ -75,10 +75,41 @@ def text_to_textnodes(text):
     result=split_nodes_link(result)
     
     return result
+def block_to_block_type(block):
+    if(re.fullmatch(r"#{1,6}+ .*",block) is not None):
+        return BlockType.HDNG
+    if(re.fullmatch(r"```.*```",block) is not None):
+        return BlockType.CODE
+    lines = block.split("\n")
+    found_type=True
+    for line in lines:
+        if(line[0]!='>'):
+            found_type=False
+            break
+    if(found_type):
+        return BlockType.QUOTE
+    found_type=True
+    for line in lines:
+        if(re.fullmatch(r"- .*",line) is None):
+            found_type=False
+            break
+    if(found_type):
+        return BlockType.UNRDLST
+    found_type=True
+    counter=1
+    for line in lines:
+        format_string=rf"{counter}\. .*"
+        if(re.fullmatch(format_string,line) is None):
+            found_type=False
+            break
+        counter+=1
+    if (found_type):
+        return BlockType.RDLST
+    return BlockType.PRGRPH
 
-test="This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
-result=text_to_textnodes(test)
-print(result)
+    
+    
+
 
 
 

@@ -119,6 +119,19 @@ This is the same paragraph on a new line
                 "- This is a list\n- with items",
             ],
     ) 
+    def test_block_block_type(self):
+        blockType = block_to_block_type("### Hello")
+        self.assertEqual(blockType,BlockType.HDNG,"Bad Conversion!")
+        blockType = block_to_block_type("``` Code ```")
+        self.assertEqual(blockType,BlockType.CODE,"Bad Conversion!")
+        blockType = block_to_block_type(">l1\n>l2\n>l3")
+        self.assertEqual(blockType,BlockType.QUOTE,"Bad Conversion!")
+        blockType = block_to_block_type("1. One\n2. Two\n3. Three")
+        self.assertEqual(blockType,BlockType.RDLST,"Bad Conversion!")
+        blockType = block_to_block_type("- One\n- Two\n- Three")
+        self.assertEqual(blockType,BlockType.UNRDLST,"Bad Conversion!")
+        blockType = block_to_block_type("``` ### asdasd as d-\n 1 \n --")
+        self.assertEqual(blockType,BlockType.PRGRPH,"Bad Conversion!")
 # Run tests with verbosity=2 for more detailed output
 if __name__ == "__main__":
     unittest.main(verbosity=2)

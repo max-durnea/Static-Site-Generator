@@ -8,6 +8,13 @@ class TextType(Enum):
 	IMAGE = "Image"
 	TEXT = "Text"
 	NORMAL = "Normal text"
+class BlockType(Enum):
+	PRGRPH = "paragaph"
+	HDNG = "heading"
+	CODE = "code"
+	QUOTE = "quote"
+	UNRDLST = "unordered_list"
+	RDLST = "ordered_list"
 class TextNode:
 	def __init__(self,text,text_type,url=None):
 		self.text = text
