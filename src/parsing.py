@@ -14,6 +14,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             else:
                 TextNodeList.append(TextNode(text,node.text_type,node.url))
             inside_delimiters=not inside_delimiters
+    #Remove empty nodes
+    TextNodeList = [node for node in TextNodeList if node.text]
         
     return TextNodeList
 def extract_markdown_images(text):
@@ -66,6 +68,9 @@ def split_nodes_link(old_nodes):
         if(original_text):
             resulting_nodes.extend([TextNode(original_text,TextType.TEXT)])
     return resulting_nodes
+
+
+#Main functions for parsing
 def text_to_textnodes(text):
     textnode=TextNode(text,TextType.TEXT)
     result=split_nodes_delimiter([textnode],"**",TextType.BOLD)
@@ -78,7 +83,7 @@ def text_to_textnodes(text):
 def block_to_block_type(block):
     if(re.fullmatch(r"#{1,6}+ .*",block) is not None):
         return BlockType.HDNG
-    if(re.fullmatch(r"```.*```",block) is not None):
+    if(re.fullmatch(r"```[\s\S]*```",block) is not None):
         return BlockType.CODE
     lines = block.split("\n")
     found_type=True

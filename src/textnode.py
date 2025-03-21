@@ -7,7 +7,6 @@ class TextType(Enum):
 	LINK = "Link"
 	IMAGE = "Image"
 	TEXT = "Text"
-	NORMAL = "Normal text"
 class BlockType(Enum):
 	PRGRPH = "paragaph"
 	HDNG = "heading"
@@ -26,14 +25,5 @@ class TextNode:
 		return f"TextNode({self.text},{self.text_type.value},{self.url})"
 def markdown_to_blocks(markdown):
 	return [item.strip() for item in markdown.split("\n\n")]
-md="""
-This is **bolded** paragraph
 
-This is another paragraph with _italic_ text and `code` here
-This is the same paragraph on a new line
-
-- This is a list
-- with items
-"""
-print(markdown_to_blocks(md))
     

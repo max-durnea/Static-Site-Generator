@@ -15,11 +15,11 @@ class TestTextNode(unittest.TestCase):
 
     def test_different(self):
         node = TextNode("This is a text node", TextType.BOLD)
-        node2 = TextNode("This is a text node", TextType.NORMAL)
+        node2 = TextNode("This is a text node", TextType.TEXT)
         self.assertNotEqual(node, node2, "Test failed: Text nodes with different types should not be equal!")
 
     def test_empty_text(self):
-        node = TextNode("", TextType.NORMAL)
+        node = TextNode("", TextType.TEXT)
         self.assertEqual(node.text, "", "Test failed: Empty text node should have an empty string as text!")
 
     def test_different_text(self):
@@ -33,7 +33,7 @@ class TestTextNode(unittest.TestCase):
         self.assertNotEqual(node1, node2, "Test failed: Text nodes with different types should not be equal!")
 
     def test_none_values(self):
-        node = TextNode(None, TextType.NORMAL)
+        node = TextNode(None, TextType.TEXT)
         self.assertIsNone(node.text, "Test failed: Text node with None should result in None as text!")
     def test_delimiter(self):
         node = TextNode("This is text with a `code block` word", TextType.TEXT)
