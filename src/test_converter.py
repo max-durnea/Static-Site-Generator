@@ -46,7 +46,7 @@ class TestConverter(unittest.TestCase):
         html_node = markdown_to_html_node(block)
         self.assertEqual(
             html_node.to_html(),
-            "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
+            "<div><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul></div>",
             "Unordered list conversion failed!"
         )
 
@@ -55,7 +55,7 @@ class TestConverter(unittest.TestCase):
         html_node = markdown_to_html_node(block)
         self.assertEqual(
             html_node.to_html(),
-            "<div><ol><li>First item</li><li>Second item</li><li>Third item</li></ol>",
+            "<div><ol><li>First item</li><li>Second item</li><li>Third item</li></ol></div>",
             "Ordered list conversion failed!</div>"
         )
 
